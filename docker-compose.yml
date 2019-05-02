@@ -1,7 +1,7 @@
 version: "3"
 services:
   mysql:
-    image: mysql:8
+    image: mysql:5.7
     # Sets env variables for the image
     # Use env: for sharing env variables a use process.env in web
     environment:
