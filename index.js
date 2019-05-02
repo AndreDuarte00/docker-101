@@ -18,7 +18,7 @@ app.get('/', (req, res) => {
       console.log(ip);
       console.log(ipProxy);
 
-
+      connection.connect();
       connection.query('SELECT * FROM tasks', function (error, results, fields) {
         if (error) throw error;
         console.log(results)
@@ -53,6 +53,7 @@ app.get('/', (req, res) => {
 
         res.send(string)
       });
+      connection.end();
     });
   });
 })

@@ -1,0 +1,21 @@
+version: "3"
+services:
+  mysql:
+    image: mysql:8
+    env_file: .env
+    volumes:
+     - ./db.sql:/docker-entrypoint-initdb.d/entry.sql
+
+  web:
+    image: docker101:latest
+    restart: always
+    env_file: .env
+    volumes:
+      - ./:/code
+
+  proxy:
+    image: nginx:latest
+    ports:
+      - 8080:80
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf

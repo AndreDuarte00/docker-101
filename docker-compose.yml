@@ -1,3 +1,39 @@
 version: "3"
 services:
-  # Start here
+  mysql:
+    image: mysql:8
+    # Sets env variables for the image
+    # Use env: for sharing env variables a use process.env in web
+    environment:
+      MYSQL_ROOT_PASSWORD: docker101
+      MYSQL_DATABASE: docker101
+      MYSQL_USER: docker101
+      MYSQL_PASSWORD: docker101
+    volumes:
+     # Mounts the db entry so we can always have data for everyone using this
+     - ./db.sql:/docker-entrypoint-initdb.d/entry.sql
+
+  web:
+    # Replace the image with the built one
+    image: node:9
+
+    # Remove command
+    command: node /code/index.js
+
+    # Explain restart
+    restart: always
+
+    # Remove expose because we setted it in dockerfile
+    expose:
+      - 3000
+
+    # use .env
+    volumes:
+      - ./:/code
+
+  proxy:
+    image: nginx:latest
+    ports:
+      - 8080:80
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
